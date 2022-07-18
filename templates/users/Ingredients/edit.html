@@ -25,8 +25,8 @@
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form class="form-horizontal" action="{% url 'users_product_update' product.id %}" method="post" enctype="multipart/form-data">
-              <input type="hidden" name="oldpicname" value="{{ product.cover_pic }}" />
+            <form class="form-horizontal" action="{% url 'users_ingredients_update' Ingredients.id %}" method="post" enctype="multipart/form-data">
+              <input type="hidden" name="oldpicname" value="{{ Ingredients.cover_pic }}" />
               {% csrf_token %}
               <div class="box-body">
                 <div class="form-group">
@@ -34,7 +34,7 @@
                   <div class="col-sm-4">
                     <select name="category_id" id="category_id" onchange="doLoadCategory(0)" class="form-control select2" style="width: 100%;">
                       {% for cvo in categorylist %}
-                        <option value="{{ cvo.id }}" {% if cvo.id == product.category_id %} selected {% endif %}>{{ cvo.name }}</option>
+                        <option value="{{ cvo.id }}" {% if cvo.id == Ingredients.category_id %} selected {% endif %}>{{ cvo.name }}</option>
                       {% endfor %}
                     </select>
                   </div>
@@ -42,20 +42,20 @@
                 <div class="form-group">
                   <label for="inputEmail3" class="col-sm-2 control-label">菜品名称：</label>
                   <div class="col-sm-4">
-                    <input type="text" name="name" value="{{ product.name }}"  class="form-control" id="inputText3" />
+                    <input type="text" name="name" value="{{ Ingredients.name }}"  class="form-control" id="inputText3" />
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="inputEmail3" class="col-sm-2 control-label">单价：</label>
                   <div class="col-sm-4">
-                    <input type="text" name="price" value="{{ product.price }}" class="form-control" id="inputText3" />
+                    <input type="text" name="calories" value="{{ Ingredients.calories }}" class="form-control" id="inputText3" />
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="inputPassword3" class="col-sm-2 control-label">菜品图片：</label>
                   <div class="col-sm-4">
                     <input type="file" name="cover_pic" /><br/>
-                    <img src="/static/uploads/product/{{ product.cover_pic }}" width="200"/>
+                    <img src="/static/uploads/Ingredients/{{ Ingredients.cover_pic }}" width="200"/>
                   </div>
                 </div>
 

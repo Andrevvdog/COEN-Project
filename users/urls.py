@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
-from users.views import index, user, category, ingredients
+from users.views import index, user
+from recipes.views import category, ingredients
 
 urlpatterns = [
     path('', index.index, name = "users_index"),
@@ -17,7 +18,7 @@ urlpatterns = [
     path('user/del/<int:uid>', user.delete, name = "users_user_delete"),
     path('user/edit/<int:uid>', user.edit, name = "users_user_edit"),
     path('user/update/<int:uid>', user.update, name = "users_user_update"),
-    
+
     path('category/<int:pIndex>', category.index, name = "users_category_index"),
     path('category/add', category.add, name = "users_category_add"),
     path('category/insert', category.insert, name = "users_category_insert"),
