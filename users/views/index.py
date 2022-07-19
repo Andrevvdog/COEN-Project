@@ -5,6 +5,7 @@ from users.models import User
 from django.shortcuts import redirect
 from django.urls import reverse
 import re
+from datetime import datetime
 
 
 def index(request):
@@ -72,3 +73,42 @@ def verify(request):
     buf = io.BytesIO()
     im.save(buf, 'png')
     return HttpResponse(buf.getvalue(), 'image/png')
+
+
+def register(request):
+    return render(request, 'users/index/register.html')
+
+def doregister(request):
+    try:
+        if request.POST['code'] != request.session['verifycode']:
+            context = {"info":"Wrong Verification Code！"}
+            return render(request, "users/index/register.html", context)
+        user_list = User.objects.filter(username=request.POST['username'])
+        if len(user_list) == 0:
+            ob = User()
+            ob.username = request.POST['username']
+            ob.nickname = request.POST['nickname']
+            if (request.POST['password'] == request.POST['repassword']):
+                import hashlib, random
+                md5 = hashlib.md5()
+                n = random.randint(100000, 999999)
+                s = request.POST['password'] + str(n)
+                md5.update(s.encode('utf-8'))
+                ob.password_hash = md5.hexdigest()
+                ob.password_salt = n
+                ob.status = 1
+                ob.create_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                ob.update_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                ob.save()
+                context = {'info':"Sucessfully Registered!"}
+
+                return render(request, "users/index/login.html", context)
+            
+            else:
+                context = {"info":"Invalid Password！"}
+        else:
+            context = {"info":"Username Already Exists！"}
+    except Exception as err:
+        print(err)
+        context = {"info":"Unknown Error!"}
+    return render(request, "users/index/register.html", context)

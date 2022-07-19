@@ -10,6 +10,8 @@ urlpatterns = [
     path('dologin', index.dologin, name = "users_dologin"),
     path('logout', index.logout, name = "users_logout"),
     path('verify', index.verify, name = "users_verify"),
+    path('register', index.register, name = "users_register"),
+    path('doregister', index.doregister, name = "users_doregister"),
 
 
     path('user/<int:pIndex>', user.index, name = "users_user_index"),
