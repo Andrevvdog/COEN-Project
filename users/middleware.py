@@ -15,7 +15,7 @@ class Middleware:
         path = request.path
         print("url: ", path)
 
-        urllist = ['/users/login', '/users/dologin', '/users/logout', '/users/verify']
+        urllist = ['/users/login', '/users/dologin', '/users/logout', '/users/verify', '/users/register', '/users/doregister']
         if re.match(r'^/users', path) and (path not in urllist):
             if 'adminuser' not in request.session:
                 return redirect(reverse("users_login"))

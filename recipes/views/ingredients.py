@@ -120,7 +120,7 @@ def update(request, pid = 0):
             for chunk in myfile.chunks():  
                 destination.write(chunk)  
             destination.close()
-
+            
         ob.cover_pic = cover_pic
         ob.save()
         context = {'info':"Updated Successfully!"}

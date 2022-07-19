@@ -83,7 +83,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'rkdb4',
         'USER': 'root',
-        'PASSWORD': 'Letmein@123',
+        'PASSWORD': 'Ni1996104',
         'HOST': 'localhost',
         'PORT': '3306',
     }
