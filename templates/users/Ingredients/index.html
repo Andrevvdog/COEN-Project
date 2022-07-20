@@ -23,13 +23,15 @@
               <h3 class="box-title"><i class="fa fa-calendar"></i> 菜品信息表</h3>
 
               <div class="box-tools">
-                <div class="input-group input-group-sm" style="width: 150px;">
-                  <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+                <form action="{% url 'users_ingredients_index' 1 %}" method="get">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="keyword" class="form-control pull-right" placeholder="Search">
 
-                  <div class="input-group-btn">
-                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                    <div class="input-group-btn">
+                      <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                    </div>
                   </div>
-                </div>
+                </form>
               </div>
             </div>
             <!-- /.box-header -->
@@ -81,11 +83,11 @@
               <a role="button" href="{% url 'users_ingredients_add' %}" class="btn btn-primary">
                       <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 添加菜品</a>
               <ul class="pagination pagination-sm no-margin pull-right">
-                <li><a href="{% url 'users_ingredients_index' pIndex|add:-1 %}">&laquo;</a></li>
+                <li><a href="{% url 'users_ingredients_index' pIndex|add:-1 %}?{{mywhere|join:'&'}}">&laquo;</a></li>
                 {% for p in plist %}
-                  <li {% if pIndex == p %}class="active"{% endif %}><a href="{% url 'users_ingredients_index' p %}">{{ p }}</a></li>
+                  <li {% if pIndex == p %}class="active"{% endif %}><a href="{% url 'users_ingredients_index' p %}?{{mywhere|join:'&'}}">{{ p }}</a></li>
                 {% endfor %}
-                <li><a href="{% url 'users_ingredients_index' pIndex|add:1 %}">&raquo;</a></li>
+                <li><a href="{% url 'users_ingredients_index' pIndex|add:1 %}?{{mywhere|join:'&'}}">&raquo;</a></li>
               </ul>
             </div>
           </div>
