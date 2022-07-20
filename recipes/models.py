@@ -12,7 +12,7 @@ class Category(models.Model):
         db_table = "category"  
 
 class Ingredients(models.Model):
-    category_id = models.IntegerField()    
+    category = models.ForeignKey(Category,on_delete=models.CASCADE)  
     cover_pic = models.CharField(max_length=50)   
     name = models.CharField(max_length=50)
     calories = models.FloatField()    
@@ -21,7 +21,7 @@ class Ingredients(models.Model):
     update_at = models.DateTimeField(default=datetime.now)   
 
     def toDict(self):
-        return {'id':self.id,'cover_pic':self.cover_pic,'name':self.name,'calories':self.calories,'status':self.status,'create_at':self.create_at.strftime('%Y-%m-%d %H:%M:%S'),'update_at':self.update_at.strftime('%Y-%m-%d %H:%M:%S')}
+        return {'id':self.id, 'category_id':self.category, 'cover_pic':self.cover_pic,'name':self.name,'calories':self.calories,'status':self.status,'create_at':self.create_at.strftime('%Y-%m-%d %H:%M:%S'),'update_at':self.update_at.strftime('%Y-%m-%d %H:%M:%S')}
 
     class Meta:
         db_table = "ingredients"
