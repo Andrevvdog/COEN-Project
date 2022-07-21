@@ -4,12 +4,11 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        菜品信息管理
-        <small>订餐系统后台管理</small>
+        Ingredient management
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
-        <li class="active">菜品信息管理</li>
+        <li><a href="#"><i class="fa fa-home"></i>Home</a></li>
+        <li class="active">Ingredient management</li>
       </ol>
     </section>
 
@@ -20,7 +19,7 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title"><i class="fa fa-calendar"></i> 菜品信息表</h3>
+              <h3 class="box-title"><i class="fa fa-list-alt"></i> Ingredients list</h3>
 
               <div class="box-tools">
                 <form action="{% url 'users_ingredients_index' 1 %}" method="get">
@@ -39,13 +38,13 @@
               <table class="table table-hover">
                 <tr>
                   <th>ID</th>
-                  <th>菜品分类</th>
-                  <th>菜品图片</th>
-                  <th>菜品名称</th>
-                  <th>单价</th>
-                  <th  width="45">状态</th>
-                  <th>添加时间</th>
-                  <th>操作</th>
+                  <th>Category</th>
+                  <th>Picture</th>
+                  <th>Name</th>
+                  <th>Calories (100g)</th>
+                  <th>Status</th>
+                  <th>Adding time</th>
+                  <th>Operations</th>
                 </tr>
                 {% for vo in ingredientslist %}
                 <tr>
@@ -56,23 +55,23 @@
                   <td>{{ vo.calories }}</td>
                   <td >
                     {% if vo.status == 1 %}
-                      <span style="color:green">正常</span>
+                      <span style="color:green">In stock</span>
                     {% elif vo.status == 2 %}
-                      <span style="color:red">停售</span>
+                      <span style="color:red">Out of stock</span>
                     {% elif vo.status == 9 %}
-                      <span style="color:red">已删除</span>
+                      <span style="color:red">Disabled</span>
                     {% else %}
-                      <span style="color:red">未知状态</span>
+                      <span style="color:red">Unknown</span>
                     {% endif %}
                   </td>
                   <td width="10%">{{ vo.create_at|date:'Y-m-d' }}</td>
                   <td width="20%">
                     <a href="{% url 'users_ingredients_edit' vo.id %}" class="btn btn-success btn-xs">
-                      <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 编辑</a>
+                      <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
                     <button type="button" onclick="doDel('{% url 'users_ingredients_delete' vo.id %}')" class="btn btn-danger btn-xs">
-                      <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 删除</button>
+                      <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</button>
                     <a type="button" class="btn btn-warning btn-xs">
-                      <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 销量</a>
+                      <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Check details</a>
                   </td>
                 </tr>
                 {% endfor %}
@@ -81,7 +80,7 @@
             <!-- /.box-body -->
             <div class="box-footer clearfix">
               <a role="button" href="{% url 'users_ingredients_add' %}" class="btn btn-primary">
-                      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 添加菜品</a>
+                      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add new ingredient</a>
               <ul class="pagination pagination-sm no-margin pull-right">
                 <li><a href="{% url 'users_ingredients_index' pIndex|add:-1 %}?{{mywhere|join:'&'}}">&laquo;</a></li>
                 {% for p in plist %}

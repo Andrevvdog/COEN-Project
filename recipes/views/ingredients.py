@@ -12,10 +12,10 @@ def index(request, pIndex=1):
     umod = Ingredients.objects
     ulist = umod.filter(status__lt=9)
     mywhere = []
-    kw = request.GET.get("keyword",None)
-    if kw:
-        ulist = ulist.filter(name__contains=kw)
-        mywhere.append('keyword='+kw)
+    keyword = request.GET.get("keyword",None)
+    if keyword:
+        ulist = ulist.filter(name__contains=keyword)
+        mywhere.append('keyword='+keyword)
 
     cid = request.GET.get("category_id",None)
     if cid:
@@ -46,7 +46,7 @@ def index(request, pIndex=1):
     return render(request, "users/Ingredients/index.html",context)
 
 def add(request):
-    clist = Category.objects.values("id","name")
+    clist = Category.objects.filter(status__lt=9).values("id","name")
     context = {"categorylist":clist}
     return render(request, "users/Ingredients/add.html", context)
 

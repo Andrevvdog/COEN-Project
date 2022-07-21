@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 # Create your views here.
-from recipes.models import Category
+from recipes.models import Category, Ingredients
 from django.core.paginator import Paginator
 from django.db.models import Q
 from datetime import datetime
@@ -11,10 +11,10 @@ def index(request, pIndex=1):
     umod = Category.objects
     ulist = umod.filter(status__lt=9)
     mywhere = []
-    kw = request.GET.get("keyword",None)
-    if kw:
-        ulist = ulist.filter(name__contains=kw)
-        mywhere.append('keyword='+kw)
+    keyword = request.GET.get("keyword",None)
+    if keyword:
+        ulist = ulist.filter(name__contains=keyword)
+        mywhere.append('keyword='+keyword)
     
     status = request.GET.get("status",'')
     if status != '':
@@ -59,6 +59,14 @@ def delete(request, cid = 0):
         ob.status = 9
         ob.update_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         ob.save()
+
+        # Delete the corresponding ingredients
+        ingredients_list = Ingredients.objects.filter(category_id = cid)
+        for ob in ingredients_list:
+            ob.status = 9
+            ob.update_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            ob.save()
+
         context = {'info':"Successfully Deleted!"}
     except Exception as err:
         print(err)

@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>后台管理登录界面</title>
+  <title>Register</title>
   <!-- 支持响应式布局 -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <link rel="stylesheet" href="{% static 'users/bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
@@ -27,7 +27,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="index2.html"><b>餐饮系统后台管理</b></a>
+    <a href="index2.html"><b>Recipe manage system</b></a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
@@ -36,34 +36,34 @@
     <form action="{% url 'users_doregister' %}" method="post">
      {% csrf_token %}
       <div class="form-group has-feedback">
-        <input type="text" name="username" class="form-control" placeholder="账号">
+        <input type="text" name="username" class="form-control" placeholder="Account">
         <span class="glyphicon glyphicon-user form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="text" name="nickname" class="form-control" placeholder="昵称">
+        <input type="text" name="nickname" class="form-control" placeholder="Nickname">
         <span class="glyphicon glyphicon-user form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="password" name="password" class="form-control" placeholder="密码">
+        <input type="password" name="password" class="form-control" placeholder="Password">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="password" name="repassword" class="form-control" placeholder="重复密码">
+        <input type="password" name="repassword" class="form-control" placeholder="Confirm your password">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="text" name="email" class="form-control" placeholder="Email Address">
+        <input type="text" name="email" class="form-control" placeholder="Email address">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="text" name="code" class="form-control" style="width:150px" placeholder="验证码">
+        <input type="text" name="code" class="form-control" style="width:155px" placeholder="Verification code">
         <span class="form-control-feedback" style="width:150px">
             <img src="{% url 'users_verify' %}"/>
         </span>
       </div>
       <div class="row">
         <div class="col-xs-12">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">注册</button>
+          <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
         </div>
         <!-- /.col -->
       </div>

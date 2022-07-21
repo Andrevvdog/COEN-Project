@@ -5,12 +5,11 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        菜品分类管理
-        <small>订餐系统后台管理</small>
+        Ingredients categories management
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
-        <li class="active">菜品分类信息管理</li>
+        <li><a href="#"><i class="fa fa-home"></i>Home</a></li>
+        <li class="active">Ingredients categories management</li>
       </ol>
     </section>
 
@@ -21,7 +20,7 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-                <h2 class="box-title"><span class="glyphicon glyphicon-calendar" aria-hidden="true">编辑菜品分类信息</h2>
+                <h2 class="box-title"><span class="fa fa-edit" aria-hidden="true"> Edit category</h2>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
@@ -29,29 +28,29 @@
                 {% csrf_token %}
               <div class="box-body">
                 <div class="form-group">
-                  <label for="inputEmail3" class="col-sm-2 control-label">类别名称：</label>
+                  <label for="inputEmail3" class="col-sm-2 control-label">Category name：</label>
 
                   <div class="col-sm-4">
-                    <input type="text" name="name" value="{{ category.name }}" class="form-control" id="inputText2" placeholder="类别名称" />
+                    <input type="text" name="name" class="form-control" id="inputText2" placeholder="Category name" />
                   </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">当前状态：</label>
+                    <label for="inputEmail3" class="col-sm-2 control-label">Current status：</label>
                     <div class="controls">
                       &nbsp; &nbsp;
                       <input type="radio" name="status" class="input-xlarge" value="1" 
-                      {% if category.status == 1 %}checked{% endif %} /> 正常
+                      {% if category.status == 1 %}checked{% endif %} /> Enabled
                        &nbsp; &nbsp; 
                       <input type="radio" name="status" class="input-xlarge" value="2" 
-                      {% if category.status == 2 %}checked{% endif %} /> 禁用
+                      {% if category.status == 2 %}checked{% endif %} /> Disabled
                     </div>
                   </div>
               </div>
               <!-- /.box-body -->
               <div class="box-footer">
                 <div class="col-sm-offset-2 col-sm-10">
-                  <button type="submit" class="btn btn-primary">保存</button> &nbsp; 
-                  <button type="reset" class="btn btn-default">重置</button>
+                  <button type="submit" class="btn btn-primary">Save</button> &nbsp;
+                  <button type="reset" class="btn btn-default">Reset</button>
                 <div class="col-sm-offset-2 col-sm-10">
               </div>
               <!-- /.box-footer -->
