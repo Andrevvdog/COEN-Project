@@ -22,3 +22,22 @@ class User(models.Model):
     class Meta:
         db_table = "user"
 
+
+class Friends(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    username = models.CharField(max_length = 50) 
+    nickname = models.CharField(max_length=50)    
+    avatar_pic = models.CharField(max_length=50)    
+    email = models.CharField(max_length=50)    
+    status = models.IntegerField(default=1)        #1:Normal/9:Delete
+    create_at = models.DateTimeField(default=datetime.now)  
+    update_at = models.DateTimeField(default=datetime.now)
+
+    def toDict(self):
+        return {'id':self.id,'user_id':self.user,'nickname':self.nickname,'avatar_pic':self.avatar,
+        'email':self.email,'status':self.status,'username':self.username,
+        'create_at':self.create_at.strftime('%Y-%m-%d %H:%M:%S'),'update_at':self.update_at.strftime('%Y-%m-%d %H:%M:%S')}
+
+    class Meta:
+        db_table = "friends" 
+
