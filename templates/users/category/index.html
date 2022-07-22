@@ -66,8 +66,6 @@
                       <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
                     <button type="button" onclick="doDel('{% url 'users_category_delete' vo.id %}')" class="btn btn-danger btn-xs">
                       <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</button>
-                    <a href="{% url 'users_ingredients_index' 1 %}?category_id={{vo.id}}" class="btn btn-warning btn-xs">
-                      <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Check details</a>
                   </td>
                 </tr>
                 {% endfor %}

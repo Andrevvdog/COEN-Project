@@ -8,30 +8,30 @@ from datetime import datetime
 from django.http import JsonResponse
 
 def index(request, pIndex=1):
-    umod = Category.objects
-    ulist = umod.filter(status__lt=9)
+    category = Category.objects
+    filter_list = category.filter(status__lt=9)
     mywhere = []
     keyword = request.GET.get("keyword",None)
     if keyword:
-        ulist = ulist.filter(name__contains=keyword)
+        filter_list = filter_list.filter(name__contains=keyword)
         mywhere.append('keyword='+keyword)
     
     status = request.GET.get("status",'')
     if status != '':
-        ulist = ulist.filter(status=status)
+        filter_list = filter_list.filter(status=status)
         mywhere.append('status='+status)
 
     pIndex = int(pIndex)
-    page = Paginator(ulist, 10)
+    page = Paginator(filter_list, 10)
     maxpages = page.num_pages
     if pIndex > maxpages:
         pIndex = maxpages
     if pIndex < 1:
         pIndex = 1
-    list2 = page.page(pIndex)
+    category_list = page.page(pIndex)
     plist = page.page_range
 
-    context = {"categorylist":list2, 'plist':plist,'pIndex':pIndex,'maxpages':maxpages,'mywhere':mywhere}
+    context = {"categorylist":category_list, 'plist':plist,'pIndex':pIndex,'maxpages':maxpages,'mywhere':mywhere}
     
     return render(request, "users/category/index.html",context)
 
@@ -53,15 +53,15 @@ def insert(request):
     
     return render(request, "users/info.html",context)
 
-def delete(request, cid = 0):
+def delete(request, category_id = 0):
     try:
-        ob = Category.objects.get(id=cid)
+        ob = Category.objects.get(id=category_id)
         ob.status = 9
         ob.update_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         ob.save()
 
         # Delete the corresponding ingredients
-        ingredients_list = Ingredients.objects.filter(category_id = cid)
+        ingredients_list = Ingredients.objects.filter(category_id = category_id)
         for ob in ingredients_list:
             ob.status = 9
             ob.update_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -74,9 +74,9 @@ def delete(request, cid = 0):
     
     return render(request, "users/info.html",context)
 
-def edit(request, cid = 0):
+def edit(request, category_id = 0):
     try:
-        ob = Category.objects.get(id=cid)
+        ob = Category.objects.get(id=category_id)
         # slist = Recipe.objects.values("id","name")
         # context = {'category':ob,"Recipelist":slist}
         context = {'category':ob}
@@ -86,9 +86,9 @@ def edit(request, cid = 0):
         context = {'info':"Information Not Found!"}
         return render(request, "users/info.html",context)
 
-def update(request, cid = 0):
+def update(request, category_id = 0):
     try:
-        ob = Category.objects.get(id=cid)
+        ob = Category.objects.get(id=category_id)
         ob.name = request.POST['name']
         ob.status = request.POST['status']
         ob.update_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")

@@ -7,9 +7,9 @@ from django.db.models import Q
 from datetime import datetime
 import time, os
 
-def edit(request, uid = 0):
+def edit(request, user_id = 0):
     try:
-        ob = User.objects.get(id=uid)
+        ob = User.objects.get(id=user_id)
         context = {'user':ob}
         return render(request, "users/user/edit.html",context)
     except Exception as err:
@@ -17,21 +17,21 @@ def edit(request, uid = 0):
         context = {'info':"Information Not Found!"}
         return render(request, "users/info.html",context)
 
-def update(request, uid = 0):
+def update(request, user_id = 0):
     try:
-        ob = User.objects.get(id=uid)
+        ob = User.objects.get(id=user_id)
         ob.nickname = request.POST['nickname']
         ob.update_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         ob.email = request.POST['email']
 
         oldpicname = request.POST['oldpicname']
-        myfile = request.FILES.get("avatar_pic",None)
-        if not myfile:
+        pic_file = request.FILES.get("avatar_pic",None)
+        if not pic_file:
             avatar_pic = oldpicname
         else:    
-            avatar_pic = str(time.time())+"."+myfile.name.split('.').pop()
+            avatar_pic = str(time.time())+"."+pic_file.name.split('.').pop()
             destination = open("./static/uploads/Users/"+avatar_pic,"wb+")
-            for chunk in myfile.chunks():  
+            for chunk in pic_file.chunks():  
                 destination.write(chunk)  
             destination.close()
 
@@ -39,19 +39,19 @@ def update(request, uid = 0):
 
         ob.save()
 
-        ob = User.objects.get(id=uid)
+        ob = User.objects.get(id=user_id)
         request.session['adminuser'] = ob.toDict()
 
         context = {'info':"Sucessfully Editted!"}
 
-        if myfile and oldpicname != 'avatar5.png':
+        if pic_file and oldpicname != 'avatar5.png':
             os.remove("./static/uploads/Users/"+oldpicname)
 
     except Exception as err:
         print(err)
         context = {'info':"Fail to Edit!"}
 
-        if myfile and oldpicname != 'avatar5.png':
+        if pic_file and oldpicname != 'avatar5.png':
             os.remove("./static/uploads/Users/"+oldpicname)
     
     return render(request, "users/info.html",context)

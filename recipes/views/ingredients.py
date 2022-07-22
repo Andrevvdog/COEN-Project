@@ -9,39 +9,39 @@ from datetime import datetime
 import time, os
 
 def index(request, pIndex=1):
-    umod = Ingredients.objects
-    ulist = umod.filter(status__lt=9)
+    ingredients = Ingredients.objects
+    filter_list = ingredients.filter(status__lt=9)
     mywhere = []
     keyword = request.GET.get("keyword",None)
     if keyword:
-        ulist = ulist.filter(name__contains=keyword)
+        filter_list = filter_list.filter(name__contains=keyword)
         mywhere.append('keyword='+keyword)
 
-    cid = request.GET.get("category_id",None)
-    if cid:
-        ulist = ulist.filter(category_id=cid)
-        mywhere.append('category_id='+cid)
+    category_id = request.GET.get("category_id",None)
+    if category_id:
+        filter_list = filter_list.filter(category_id=category_id)
+        mywhere.append('category_id='+category_id)
     
     status = request.GET.get("status",'')
     if status != '':
-        ulist = ulist.filter(status=status)
+        filter_list = filter_list.filter(status=status)
         mywhere.append('status='+status)
 
     pIndex = int(pIndex)
-    page = Paginator(ulist, 5)
+    page = Paginator(filter_list, 5)
     maxpages = page.num_pages
     if pIndex > maxpages:
         pIndex = maxpages
     if pIndex < 1:
         pIndex = 1
-    list2 = page.page(pIndex)
+    ingredients_list = page.page(pIndex)
     plist = page.page_range
 
-    for vo in list2:
+    for vo in ingredients_list:
         cob = Category.objects.get(id=vo.category_id)
         vo.categoryname = cob.name
 
-    context = {"ingredientslist":list2, 'plist':plist,'pIndex':pIndex,'maxpages':maxpages,'mywhere':mywhere}
+    context = {"ingredientslist":ingredients_list, 'plist':plist,'pIndex':pIndex,'maxpages':maxpages,'mywhere':mywhere}
     
     return render(request, "users/Ingredients/index.html",context)
 
@@ -52,12 +52,12 @@ def add(request):
 
 def insert(request):
     try:
-        myfile = request.FILES.get("cover_pic",None)
-        if not myfile:
+        pic_file = request.FILES.get("cover_pic",None)
+        if not pic_file:
             return HttpResponse("No Cover Picture Information!")
-        cover_pic = str(time.time())+"."+myfile.name.split('.').pop()
+        cover_pic = str(time.time())+"."+pic_file.name.split('.').pop()
         destination = open("./static/uploads/Ingredients/"+cover_pic,"wb+")
-        for chunk in myfile.chunks():   
+        for chunk in pic_file.chunks():   
             destination.write(chunk)  
         destination.close()
 
@@ -77,9 +77,9 @@ def insert(request):
     
     return render(request, "users/info.html",context)
 
-def delete(request, pid = 0):
+def delete(request, ingredients_id = 0):
     try:
-        ob = Ingredients.objects.get(id=pid)
+        ob = Ingredients.objects.get(id=ingredients_id)
         ob.status = 9
         ob.update_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         ob.save()
@@ -90,10 +90,10 @@ def delete(request, pid = 0):
     
     return render(request, "users/info.html",context)
 
-def edit(request, pid = 0):
+def edit(request, ingredients_id = 0):
     try:
-        ob = Ingredients.objects.get(id=pid)
-        clist = Category.objects.values("id","name")
+        ob = Ingredients.objects.get(id=ingredients_id)
+        clist = Category.objects.filter(status__lt=9).values("id","name")
         context = {'Ingredients':ob,"categorylist":clist}
         return render(request, "users/Ingredients/edit.html",context)
     except Exception as err:
@@ -101,9 +101,9 @@ def edit(request, pid = 0):
         context = {'info':"Information Not Found!"}
         return render(request, "users/info.html",context)
 
-def update(request, pid = 0):
+def update(request, ingredients_id = 0):
     try:
-        ob = Ingredients.objects.get(id=pid)
+        ob = Ingredients.objects.get(id=ingredients_id)
         # ob.Recipe_id_id = request.POST['Recipe_id']
         ob.category_id = request.POST['category_id']
         ob.name = request.POST['name']
@@ -111,13 +111,13 @@ def update(request, pid = 0):
         ob.update_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         oldpicname = request.POST['oldpicname']
-        myfile = request.FILES.get("cover_pic",None)
-        if not myfile:
+        pic_file = request.FILES.get("cover_pic",None)
+        if not pic_file:
             cover_pic = oldpicname
         else:    
-            cover_pic = str(time.time())+"."+myfile.name.split('.').pop()
+            cover_pic = str(time.time())+"."+pic_file.name.split('.').pop()
             destination = open("./static/uploads/Ingredients/"+cover_pic,"wb+")
-            for chunk in myfile.chunks():  
+            for chunk in pic_file.chunks():  
                 destination.write(chunk)  
             destination.close()
             
@@ -125,14 +125,14 @@ def update(request, pid = 0):
         ob.save()
         context = {'info':"Updated Successfully!"}
 
-        if myfile:
+        if pic_file:
             os.remove("./static/uploads/Ingredients/"+oldpicname)
 
     except Exception as err:
         print(err)
         context = {'info':"Fail to Update!"}
 
-        if myfile:
+        if pic_file:
             os.remove("./static/uploads/Ingredients/"+cover_pic)
     
     return render(request, "users/info.html",context)
