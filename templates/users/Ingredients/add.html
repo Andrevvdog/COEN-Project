@@ -1,0 +1,63 @@
+{% extends "users/base.html" %}
+
+{% block main_body %}                
+   <!-- Content Header (Page header) -->
+   <section class="content-header">
+    <h1>
+      Ingredients information Adding
+    </h1>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <!-- left column -->
+        <div class="col-md-6">
+          <!-- general form elements -->
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">Adding a new ingredient</h3>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form action="{% url 'users_ingredients_doadd' %}" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="card-body">
+                <div class="form-group">
+                  <label for="exampleSelectBorder">Category Name</label>
+                  <select class="custom-select" name="category_id" id="category_id" onchange="doLoadCategory()">
+                    {% for cvo in categorylist %}
+                      <option value="{{cvo.id }}">{{cvo.name}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Ingredient Name</label>
+                  <input type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="Ingredient Name">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Calories (100g)</label>
+                  <input type="text" name="calories" class="form-control" id="exampleInputEmail1" placeholder="Calories(100g)">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputFile">Cover Image</label>
+                  <div class="input-group">
+                    <div class="custom-file">
+                      <input type="file" name="cover_pic" class="custom-file-input" id="exampleInputFile">
+                      <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                    </div>
+                  </div>
+                  <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="reset" class="btn btn-default float-right">Reset</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+      </div>
+    </div>
+
+  </section>
+  <!-- /.content -->
+{% endblock %}

@@ -1,0 +1,105 @@
+{% load static from static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Recipe manage system</title>
+  
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="stylesheet" href="{% static 'users/bower_components/fontawesome-free/css/all.min.css'%}">
+  
+    <link rel="stylesheet" href="{% static 'users/bower_components/Ionicons/css/ionicons.min.css'%}">
+
+    <link rel="stylesheet" href="{% static 'users/bower_components/icheck-bootstrap/icheck-bootstrap.min.css'%}">
+  
+    <link rel="stylesheet" href="{% static 'users/dist/css/adminlte.min.css' %}">
+  
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  </head>
+
+  <body class="hold-transition login-page">
+    <div class="login-box">
+      <!-- /.login-logo -->
+      <div class="card card-outline card-primary">
+        <div class="card-header text-center">
+          <a href="../../index2.html" class="h1"><b>Recipe</b>Robot</a>
+        </div>
+        <div class="card-body">
+          <p class="login-box-msg">Sign in to start your food trip</p>
+    
+          <form action="{% url 'users_dologin' %}" method="post">
+            {% csrf_token %}
+            <div class="input-group mb-3 has-feedback">
+              <input type="text" name="username" class="form-control" placeholder="Account">
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-users"></span>
+                </div>
+              </div>
+            </div>
+            <div class="input-group mb-3 has-feedback">
+              <input type="password" name="pass" class="form-control" placeholder="Password">
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-lock"></span>
+                </div>
+              </div>
+            </div>
+            <div class="input-group mb-3 has-feedback">
+              <input type="text" name="code" class="form-control" style="width:50px" placeholder="Verification code">
+              <div class="input-group-append">
+                
+              </div>
+              <span class="form-control-feedback" style="width:150px">
+                <img src="{% url 'users_verify' %}"/>
+              </span>
+            </div>
+            <div class="row">
+              <div class="col-8">
+                <div class="icheck-primary">
+                  <input type="checkbox" id="remember">
+                  <label for="remember">
+                    Remember Me
+                  </label>
+                </div>
+              </div>
+              <!-- /.col -->
+              <div class="col-4">
+                <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+              </div>
+              <!-- /.col -->
+            </div>
+          </form>
+          <!-- /.social-auth-links -->
+    
+          <p class="mb-0" style="color:red">{{ info }}</p>
+          <p class="mb-1">
+            <a href="{% url 'users_register' %}" class="text-center">Register a new membership</a>
+          </p>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+    </div>
+    <!-- /.login-box -->
+
+<!-- jQuery 3 -->
+<script src="{% static 'users/bower_components/jquery/jquery.min.js' %}"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="{% static 'users/bower_components/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+
+<script src="{% static 'users/dist/js/adminlte.min.js'%}"></script>
+
+<script src="{% static 'users/bower_components/bs-custom-file-input/bs-custom-file-input.min.js' %}"></script>
+
+<script>
+  $(function () {
+    bsCustomFileInput.init();
+  });
+  </script>
+
+</body>
+</html>

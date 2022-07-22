@@ -1,0 +1,61 @@
+{% extends "users/base.html" %}
+
+{% block main_body %}                
+   <!-- Content Header (Page header) -->
+   <section class="content-header">
+    <h1>
+      User information update
+    </h1>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <!-- left column -->
+        <div class="col-md-6">
+          <!-- general form elements -->
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">Update</h3>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form action="{% url 'users_user_doedit' user.id %}" method="post" enctype="multipart/form-data">
+              <input type="hidden" name="oldpicname" value="{{ user.avatar_pic }}" />
+              {% csrf_token %}
+              <div class="card-body">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Username</label>
+                  <input type="text" name="username" readonly value="{{user.username}}" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Nickname</label>
+                  <input type="text" name="nickname" value="{{user.nickname}}" class="form-control" id="exampleInputEmail1" placeholder="Enter Nickname">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Email Address</label>
+                  <input type="email" name="email" value="{{user.email}}" class="form-control" id="exampleInputEmail1" placeholder="Enter Email Address">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputFile">Avatar</label>
+                  <div class="input-group">
+                    <div class="custom-file">
+                      <input type="file" name="avatar_pic" class="custom-file-input" id="exampleInputFile">
+                      <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                    </div>
+                  </div>
+                  <img src="/static/uploads/Users/{{ user.avatar_pic }}" width="200"/>
+                  <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="reset" class="btn btn-default float-right">Reset</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+      </div>
+    </div>
+
+  </section>
+  <!-- /.content -->
+{% endblock %}
