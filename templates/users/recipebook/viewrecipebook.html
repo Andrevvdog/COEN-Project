@@ -1,0 +1,100 @@
+{% extends "users/base.html" %}
+
+{% block main_body %}                
+   <!-- Content Header (Page header) -->
+   <section class="content-header">
+    <h1>
+      Recipe List Information
+    </h1>
+  </section>
+
+  <section class="content">
+    <div class="card-header">
+      <h3 class="card-title">Recipe List</h3>
+
+      <div class="card-tools">
+        <form action="{% url 'users_recipebook_viewrecipebook' 1 %}" method="get">
+          <div class="input-group input-group-sm" style="width: 150px;">
+            <input type="text" name="keyword" class="form-control float-right" placeholder="Search">
+
+            <div class="input-group-append">
+              <button type="submit" class="btn btn-default">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- Default box -->
+    <div class="card card-solid">
+      <div class="card-body pb-0">
+        <div class="row">
+          {% for vo in recipebooklist %}
+          <div class="col-md-4">
+            <!-- Widget: user widget style 1 -->
+            <div class="card card-widget widget-user">
+              <!-- Add the bg color to the header using any of the bg-* classes -->
+              <div class="widget-user-header text-white"
+                   style="background: url('/static/uploads/Recipebook/{{ vo.cover_pic }}') center center;">
+                <h3 class="widget-user-username text-right">{{vo.name}}</h3>
+                <h5 class="widget-user-desc text-right">Created on: {{ vo.create_at|date:'Y-m-d' }}</h5>
+              </div>
+              <div class="row">
+                <div class="col-sm-4 border-right">
+                  <div class="description-block">
+                    <a href="#">
+                      <h5 class="description-header">View Recipes</h5>
+                    </a>
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4 border-right">
+                  <div class="description-block">
+                    <a href="{% url 'users_recipebook_edit' vo.id %}">
+                      <h5 class="description-header">Edit</h5>
+                    </a>
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4">
+                  <div class="description-block">
+                    <a onclick="doDel('{% url 'users_recipebook_delete' vo.id %}')" href="#">
+                      <h5 class="description-header">Delete</h5>
+                    </a>
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+                <!-- /.col -->
+              </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.widget-user -->
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <!-- /.card-body -->
+      <div class="card-footer">
+        <a role="button" href="{% url 'users_recipebook_add' %}" class="btn btn-primary float-right">
+          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add new list</a>
+        <nav aria-label="Contacts Page Navigation">
+          <ul class="pagination justify-content-center m-0">
+            <li class="page-item"><a class="page-link" href="{% url 'users_recipebook_viewrecipebook' pIndex|add:-1 %}?{{mywhere|join:'&'}}">&laquo;</a></li>
+                  {% for p in plist %}
+                    <li {% if p == pIndex %} class="page-item"{% endif %}><a class="page-link" href="{% url 'users_recipebook_viewrecipebook' p %}?{{mywhere|join:'&'}}">{{p}}</a></li>
+                  {% endfor %}
+                  <li class="page-item"><a class="page-link" href="{% url 'users_recipebook_viewrecipebook' pIndex|add:1 %}?{{mywhere|join:'&'}}">&raquo;</a></li>
+          </ul>
+        </nav>
+      </div>
+      <!-- /.card-footer -->
+    </div>
+    <!-- /.card -->
+
+  </section>
+
+
+{% endblock %}

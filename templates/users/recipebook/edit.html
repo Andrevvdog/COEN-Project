@@ -1,0 +1,53 @@
+{% extends "users/base.html" %}
+
+{% block main_body %}                
+   <!-- Content Header (Page header) -->
+   <section class="content-header">
+    <h1>
+      User information update
+    </h1>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <!-- left column -->
+        <div class="col-md-6">
+          <!-- general form elements -->
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">Update</h3>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form action="{% url 'users_recipebook_doedit' recipebook.id %}" method="post" enctype="multipart/form-data">
+              <input type="hidden" name="oldpicname" value="{{ recipebook.cover_pic }}" />
+              {% csrf_token %}
+              <div class="card-body">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Name</label>
+                  <input type="text" name="name" value="{{recipebook.name}}" class="form-control" id="exampleInputEmail1" placeholder="Enter List Name">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputFile">Cover</label>
+                  <div class="input-group">
+                    <div class="custom-file">
+                      <input type="file" name="cover_pic" class="custom-file-input" id="exampleInputFile">
+                      <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                    </div>
+                  </div>
+                  <img src="/static/uploads/Recipebook/{{ recipebook.cover_pic }}" width="200"/>
+                  <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="reset" class="btn btn-default float-right">Reset</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+      </div>
+    </div>
+
+  </section>
+  <!-- /.content -->
+{% endblock %}
