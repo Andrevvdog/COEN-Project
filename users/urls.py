@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from users.views import webindex, user, friends
-from recipes.views import category, ingredients, recipebook
+from recipes.views import category, ingredients, recipebook, recipes
 
 urlpatterns = [
     path('', webindex.webindex, name = "users_webindex"),
@@ -45,4 +45,11 @@ urlpatterns = [
     path('recipebook/doadd', recipebook.doadd, name = "users_recipebook_doadd"),
     path('recipebook/edit/<int:recipebook_id>', recipebook.edit, name = "users_recipebook_edit"),
     path('recipebook/doedit/<int:recipebook_id>', recipebook.doedit, name = "users_recipebook_doedit"),
+
+    path('recipes/<int:pIndex>', recipes.viewrecipes, name = "users_recipes_viewrecipes"),
+    path('recipes/add', recipes.add, name = "users_recipes_add"),
+    path('recipes/del/<int:recipes_id>', recipes.delete, name = "users_recipes_delete"),
+    path('recipes/doadd', recipes.doadd, name = "users_recipes_doadd"),
+    path('recipes/edit/<int:recipes_id>', recipes.edit, name = "users_recipes_edit"),
+    path('recipes/doedit/<int:recipes_id>', recipes.doedit, name = "users_recipes_doedit"),
 ]
