@@ -38,6 +38,7 @@
               <div class="widget-user-header text-white"
                    style="background: url('/static/uploads/recipes/{{ vo.cover_pic }}') center center;">
                 <h3 class="widget-user-username text-right">{{vo.name}}</h3>
+                <h5 class="widget-user-desc text-right">Total Calories: {{ vo.calories }}</h5>
                 <h5 class="widget-user-desc text-right">Created on: {{ vo.create_at|date:'Y-m-d' }}</h5>
               </div>
               <div class="row">
@@ -79,7 +80,7 @@
       <!-- /.card-body -->
       <div class="card-footer">
         <a role="button" href="{% url 'users_recipes_add' %}" class="btn btn-primary float-right">
-          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add new list</a>
+          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add new recipe</a>
         <nav aria-label="Contacts Page Navigation">
           <ul class="pagination justify-content-center m-0">
             <li class="page-item"><a class="page-link" href="{% url 'users_recipes_viewrecipes' pIndex|add:-1 %}?{{mywhere|join:'&'}}">&laquo;</a></li>

@@ -45,6 +45,7 @@ urlpatterns = [
     path('recipebook/doadd', recipebook.doadd, name = "users_recipebook_doadd"),
     path('recipebook/edit/<int:recipebook_id>', recipebook.edit, name = "users_recipebook_edit"),
     path('recipebook/doedit/<int:recipebook_id>', recipebook.doedit, name = "users_recipebook_doedit"),
+    path('recipebook/showrecipes/<int:pIndex>', recipebook.showrecipes, name = "users_recipebook_showrecipes"),
 
     path('recipes/<int:pIndex>', recipes.viewrecipes, name = "users_recipes_viewrecipes"),
     path('recipes/add', recipes.add, name = "users_recipes_add"),

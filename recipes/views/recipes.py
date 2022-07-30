@@ -32,14 +32,21 @@ def viewrecipes(request, pIndex=1):
     recipes_list = page.page(pIndex)
     plist = page.page_range
 
+    for vo in recipes_list:
+        total_calories = 0
+        for io in vo.ingredients.all():
+            total_calories += io.calories
+        vo.calories = total_calories
+
     context = {"recipeslist":recipes_list, 'plist':plist,'pIndex':pIndex,'maxpages':maxpages,'mywhere':mywhere}
     
     return render(request, "users/recipes/viewrecipes.html",context)
 
 
 def add(request):
-    recipebook = RecipeBook.objects.values("id","name")
-    context = {"recipebooklist":recipebook}
+    recipebook = RecipeBook.objects.filter(status__lt=9, user_id=request.session['user']['id']).values("id","name")
+    ingredients = Ingredients.objects.filter(status__lt=9).values("id","name")
+    context = {"recipebooklist":recipebook, "ingredientslist":ingredients}
     return render(request, "users/recipes/add.html",context)
 
 
@@ -68,7 +75,14 @@ def doadd(request):
         ob.create_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         ob.update_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         ob.save()
+
+        ingredients = request.POST.getlist('ingredients')
+
+        for vo in ingredients:
+            ob.ingredients.add(vo)
+
         context = {'info':"Successfully Added!"}
+
     except Exception as err:
         print(err)
         context = {'info':"Fail to Add!"}

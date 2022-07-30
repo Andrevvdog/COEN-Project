@@ -4,7 +4,7 @@
    <!-- Content Header (Page header) -->
    <section class="content-header">
     <h1>
-      Ingredients information Adding
+      Recipes information Adding
     </h1>
   </section>
 
@@ -17,28 +17,49 @@
           <!-- general form elements -->
           <div class="card card-primary">
             <div class="card-header">
-              <h3 class="card-title">Adding a new ingredient</h3>
+              <h3 class="card-title">Adding a new recipe</h3>
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form action="{% url 'users_ingredients_doadd' %}" method="post" enctype="multipart/form-data">
+            <form action="{% url 'users_recipes_doadd' %}" method="post" enctype="multipart/form-data">
               {% csrf_token %}
               <div class="card-body">
                 <div class="form-group">
-                  <label for="exampleSelectBorder">Category Name</label>
-                  <select class="custom-select" name="category_id" id="category_id" onchange="doLoadCategory()">
-                    {% for cvo in categorylist %}
-                      <option value="{{cvo.id }}">{{cvo.name}}</option>
+                  <label for="exampleSelectBorder">List Name</label>
+                  <select class="custom-select" name="recipebook_id" id="recipebook_id" onchange="doLoadCategory()">
+                    {% for cvo in recipebooklist %}
+                      <option value="{{cvo.id}}">{{cvo.name}}</option>
                     {% endfor %}
                   </select>
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputEmail1">Ingredient Name</label>
-                  <input type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="Ingredient Name">
+                  <label for="exampleInputEmail1">Recipe Name</label>
+                  <input type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="Recipe Name">
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputEmail1">Calories (100g)</label>
-                  <input type="text" name="calories" class="form-control" id="exampleInputEmail1" placeholder="Calories(100g)">
+                  <label for="exampleInputEmail1">Rate</label>
+                  <input type="text" name="rate" class="form-control" id="exampleInputEmail1" placeholder="Rate (1-5)">
+                </div>
+                <div class="form-group">
+                  <label>Cooking Methods</label>
+                  <textarea name="methods" class="form-control" rows="3" placeholder="Enter the cooking methods step by step."></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Cooking Time</label>
+                  <input type="text" name="cooking_time" class="form-control" id="exampleInputEmail1" placeholder="Cooking time (hours)">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Keywords</label>
+                  <input type="text" name="keywords" class="form-control" id="exampleInputEmail1" placeholder="Enter the keywords">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Ingredients</label>
+                  <br>
+                    {% for vo in ingredientslist %}
+                    <label class="checkbox-inline">
+                      <input value="{{ vo.id }}" type="checkbox" name="ingredients"/>&nbsp;{{ vo.name }}&nbsp;&nbsp;&nbsp;&nbsp;
+                    </label>
+                    {% endfor %}
                 </div>
                 <div class="form-group">
                   <label for="exampleInputFile">Cover Image</label>

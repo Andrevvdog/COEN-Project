@@ -48,7 +48,6 @@ class Recipes(models.Model):
 
     name = models.CharField(max_length=255)
     cover_pic = models.CharField(max_length=255)
-    total_calories = models.FloatField(default=0) 
     rate = models.FloatField(default=1)
     methods = models.CharField(max_length=1024)
     cooking_time = models.FloatField()

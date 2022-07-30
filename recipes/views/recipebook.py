@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 # Create your views here.
-from recipes.models import RecipeBook
+from recipes.models import RecipeBook, Recipes
 from django.core.paginator import Paginator
 from django.db.models import Q
 from datetime import datetime
@@ -122,3 +122,57 @@ def doedit(request, recipebook_id = 0):
             os.remove("./static/uploads/Recipebook/"+cover_pic)
     
     return render(request, "users/info.html",context)
+
+def showrecipes(request, pIndex=1):
+    rbid = request.GET.get("rbid",0)
+
+    print(request.session['rbid']) 
+
+    if rbid != 0 and request.session['rbid'] == '0':
+        request.session['rbid'] = str(rbid)
+
+    elif request.session['rbid'] != '0' and rbid != 0:
+        request.session['rbid'] = str(rbid)
+    
+    elif request.session['rbid'] != '0' and rbid == 0:
+        rbid = int(request.session['rbid'])
+
+    else:
+        context = {'info':"Unknown Error!"}
+        return render(request, "attendees/info.html",context)
+
+    recipes = Recipes.objects
+    filter_list = recipes.filter(status__lt=9, user_id=request.session['user']['id'], recipebook_id=rbid)
+
+    mywhere = []
+    keyword = request.GET.get("keyword",None)
+    if keyword:
+        filter_list = filter_list.filter(name__contains=keyword)
+        mywhere.append('keyword='+keyword)
+    
+    status = request.GET.get("status",'')
+    if status != '':
+        filter_list = filter_list.filter(status=status)
+        mywhere.append('status='+status)
+
+    pIndex = int(pIndex)
+    page = Paginator(filter_list, 6)
+    maxpages = page.num_pages
+    if pIndex > maxpages:
+        pIndex = maxpages
+    if pIndex < 1:
+        pIndex = 1
+    recipes_list = page.page(pIndex)
+    plist = page.page_range
+
+    for vo in recipes_list:
+        total_calories = 0
+        for io in vo.ingredients.all():
+            total_calories += io.calories
+        vo.calories = total_calories
+
+    context = {"recipeslist":recipes_list, 'plist':plist,'pIndex':pIndex,'maxpages':maxpages,'mywhere':mywhere}
+    
+    return render(request, "users/recipebook/showrecipes.html",context)
+
+
