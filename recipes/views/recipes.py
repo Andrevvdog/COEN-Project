@@ -14,7 +14,7 @@ def viewrecipes(request, pIndex=1):
     mywhere = []
     keyword = request.GET.get("keyword",None)
     if keyword:
-        filter_list = filter_list.filter(Q(name__contains=keyword) | Q(ingredients__name__contains=keyword))
+        filter_list = filter_list.filter(Q(name__contains=keyword) | Q(ingredients__name__contains=keyword)).distinct()
         mywhere.append('keyword='+keyword)
     
     status = request.GET.get("status",'')
