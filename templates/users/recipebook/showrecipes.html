@@ -40,6 +40,7 @@
                 <h3 class="widget-user-username text-right">{{vo.name}}</h3>
                 <h5 class="widget-user-desc text-right">Total Calories: {{ vo.calories }}</h5>
                 <h5 class="widget-user-desc text-right">Created on: {{ vo.create_at|date:'Y-m-d' }}</h5>
+                <a onclick="doDel('{% url 'users_recipes_delete' vo.id %}')" href="#"><h5 class="widget-user-desc text-right" style="color:red">Delete</h5></a>
               </div>
               <div class="row">
                 <div class="col-sm-4 border-right">
@@ -60,10 +61,10 @@
                   <!-- /.description-block -->
                 </div>
                 <!-- /.col -->
-                <div class="col-sm-4">
+                <div class="col-sm-4 border-right">
                   <div class="description-block">
-                    <a onclick="doDel('{% url 'users_recipes_delete' vo.id %}')" href="#">
-                      <h5 class="description-header">Delete</h5>
+                    <a href="{% url 'users_orders_add' vo.id %}">
+                      <h5 class="description-header">Order</h5>
                     </a>
                   </div>
                   <!-- /.description-block -->

@@ -65,4 +65,16 @@ class Recipes(models.Model):
     class Meta:
         db_table = "recipes"
 
+class Orders(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    recipes = models.IntegerField()
+    num = models.IntegerField()
+
+    status = models.IntegerField(default=1)   #1:Normal/9:Delete  
+    create_at = models.DateTimeField(default=datetime.now)
+    update_at = models.DateTimeField(default=datetime.now)
+
+    class Meta:
+        db_table = "orders"
+
 

@@ -1,0 +1,47 @@
+{% extends "users/base.html" %}
+
+{% block main_body %}                
+   <!-- Content Header (Page header) -->
+   <section class="content-header">
+    <h1>
+      Order a Recipe
+    </h1>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <!-- left column -->
+        <div class="col-md-6">
+          <!-- general form elements -->
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">Order a Recipe</h3>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form action="{% url 'users_orders_doadd' recipe.id %}" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="card-body">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Selected Recipe</label>
+                  <input type="text" name="name" readonly value="{{recipe.name}}" class="form-control" id="exampleInputEmail1" placeholder="Recipe Name">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Quantity</label>
+                  <input type="text" name="num" class="form-control" id="exampleInputEmail1" placeholder="Quantity">
+                </div>
+                  <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="reset" class="btn btn-default float-right">Reset</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+      </div>
+    </div>
+
+  </section>
+  <!-- /.content -->
+{% endblock %}
