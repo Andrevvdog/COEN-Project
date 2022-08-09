@@ -100,6 +100,3 @@ def doedit(request, category_id = 0):
     
     return render(request, "users/info.html",context)
 
-def loadCategory(request):
-    clist = Category.objects.filter(status__lt=9).values("id","name")
-    return JsonResponse({'data':list(clist)})

@@ -23,7 +23,7 @@ urlpatterns = [
     path('category/del/<int:category_id>', category.delete, name = "users_category_delete"),
     path('category/edit/<int:category_id>', category.edit, name = "users_category_edit"),
     path('category/doedit/<int:category_id>', category.doedit, name = "users_category_doedit"),
-    path('category/load/', category.loadCategory, name = "users_category_load"),
+    # path('category/load/', category.loadcategory, name = "users_category_load"),
 
     path('ingredients/<int:pIndex>', ingredients.viewingredients, name = "users_ingredients_viewingredients"),
     path('ingredients/add', ingredients.add, name = "users_ingredients_add"),

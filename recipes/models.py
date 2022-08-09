@@ -9,6 +9,9 @@ class Category(models.Model):
     create_at = models.DateTimeField(default=datetime.now)
     update_at = models.DateTimeField(default=datetime.now)
 
+    def toDict(self):
+        return {'id':self.id,'name':self.name,'status':self.status,'create_at':self.create_at.strftime('%Y-%m-%d %H:%M:%S'),'update_at':self.update_at.strftime('%Y-%m-%d %H:%M:%S')}
+
     class Meta:
         db_table = "category"  
 
@@ -73,6 +76,9 @@ class Orders(models.Model):
     status = models.IntegerField(default=1)   #1:Normal/9:Delete  
     create_at = models.DateTimeField(default=datetime.now)
     update_at = models.DateTimeField(default=datetime.now)
+
+    def toDict(self):
+        return {'id':self.id,'user_id':self.user,'num':self.num,'recipes':self.recipes,'status':self.status,'create_at':self.create_at.strftime('%Y-%m-%d %H:%M:%S'),'update_at':self.update_at.strftime('%Y-%m-%d %H:%M:%S')}
 
     class Meta:
         db_table = "orders"
