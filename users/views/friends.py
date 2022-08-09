@@ -44,7 +44,8 @@ def doadd(request):
     try:
         pic_file = request.FILES.get("avatar_pic",None)
         if not pic_file:
-            return HttpResponse("No Cover Picture Information!")
+            context = {'info':"No Cover Picture Information!"}
+            return render(request, "users/info.html",context)
         avatar_pic = str(time.time())+"."+pic_file.name.split('.').pop()
         destination = open("./static/uploads/Friends/"+avatar_pic,"wb+")
         for chunk in pic_file.chunks():   
