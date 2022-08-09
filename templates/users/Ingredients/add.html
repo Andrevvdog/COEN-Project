@@ -26,7 +26,7 @@
               <div class="card-body">
                 <div class="form-group">
                   <label for="exampleSelectBorder">Category Name</label>
-                  <select class="custom-select" name="category_id" id="category_id" onchange="doLoadCategory()">
+                  <select class="custom-select" name="category_id" id="category_id">
                     {% for cvo in categorylist %}
                       <option value="{{cvo.id }}">{{cvo.name}}</option>
                     {% endfor %}
