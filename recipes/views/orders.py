@@ -69,6 +69,9 @@ def doadd(request, recipes_id = 0):
         if len(ob) != 0:
             ob = ob[0]
             ob.num = request.POST['num']
+            if int(request.POST['num']) <= 0:
+                context = {'info':"Invalid Number!"}
+                return render(request, "users/info.html",context)
             ob.update_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             ob.save()
 
@@ -117,11 +120,14 @@ def edit(request, orders_id = 0):
 def doedit(request, orders_id = 0):
     try:
         ob = Orders.objects.get(id=orders_id)
-        if len(Orders.objects.filter(user_id=request.session['user']['id'], status__lt=9, recipes=request.POST['recipes_id'])) != 0:
-            context = {'info':"Order already exists!"}
+        if len(Orders.objects.filter(user_id=request.session['user']['id'],recipes__lt=ob.recipes,status__lt=9, recipes=request.POST['recipes_id'])) != 0:
+            context = {'info':"Order Already Exists!"}
             return render(request, "users/info.html",context)
 
         ob.recipes = request.POST['recipes_id']
+        if int(request.POST['num']) <= 0:
+            context = {'info':"Invalid Number!"}
+            return render(request, "users/info.html",context)
         ob.num = request.POST['num']
         ob.update_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
