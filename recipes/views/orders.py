@@ -117,7 +117,7 @@ def edit(request, orders_id = 0):
 def doedit(request, orders_id = 0):
     try:
         ob = Orders.objects.get(id=orders_id)
-        if len(Orders.objects.filter(status__lt=9, recipes=request.POST['recipes_id'])) != 0:
+        if len(Orders.objects.filter(user_id=request.session['user']['id'], status__lt=9, recipes=request.POST['recipes_id'])) != 0:
             context = {'info':"Order already exists!"}
             return render(request, "users/info.html",context)
 
