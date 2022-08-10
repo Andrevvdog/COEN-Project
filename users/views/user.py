@@ -20,9 +20,13 @@ def edit(request, user_id = 0):
 def doedit(request, user_id = 0):
     try:
         ob = User.objects.get(id=user_id)
-        ob.nickname = request.POST['nickname']
+
+        if request.POST['nickname']:
+            ob.nickname = request.POST['nickname']
+        if request.POST['email']:
+            ob.email = request.POST['email']
+
         ob.update_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        ob.email = request.POST['email']
 
         oldpicname = request.POST['oldpicname']
         pic_file = request.FILES.get("avatar_pic",None)

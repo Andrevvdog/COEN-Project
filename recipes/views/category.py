@@ -7,7 +7,7 @@ from django.db.models import Q
 from datetime import datetime
 from django.http import JsonResponse
 
-def viewcategory(request, pIndex=1):
+def viewcategory(request, pIndex = 1):
     category = Category.objects
     filter_list = category.filter(status__lt=9)
     mywhere = []
@@ -89,7 +89,8 @@ def edit(request, category_id = 0):
 def doedit(request, category_id = 0):
     try:
         ob = Category.objects.get(id=category_id)
-        ob.name = request.POST['name']
+        if request.POST['name']:
+            ob.name = request.POST['name']
         # ob.status = request.POST['status']
         ob.update_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         ob.save()

@@ -7,7 +7,7 @@ from django.db.models import Q
 from datetime import datetime
 import time, os
 
-def viewfriends(request, pIndex=1):
+def viewfriends(request, pIndex = 1):
     friends = Friends.objects
     filter_list = friends.filter(status__lt=9, user_id=request.session['user']['id'])
     mywhere = []
@@ -96,8 +96,10 @@ def edit(request, friends_id = 0):
 def doedit(request, friends_id = 0):
     try:
         ob = Friends.objects.get(id=friends_id)
-        ob.nickname = request.POST['nickname']
-        ob.email = request.POST['email']
+        if request.POST['nickname']:
+            ob.nickname = request.POST['nickname']
+        if request.POST['email']:
+            ob.email = request.POST['email']
         ob.update_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         oldpicname = request.POST['oldpicname']

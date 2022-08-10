@@ -94,7 +94,8 @@ def edit(request, recipebook_id = 0):
 def doedit(request, recipebook_id = 0):
     try:
         ob = RecipeBook.objects.get(id=recipebook_id)
-        ob.name = request.POST['name']
+        if request.POST['name']:
+            ob.name = request.POST['name']
         ob.update_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         oldpicname = request.POST['oldpicname']
