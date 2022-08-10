@@ -8,7 +8,7 @@ from django.db.models import Q
 from datetime import datetime
 import time, os
 
-def viewrecipes(request, pIndex=1):
+def viewrecipes(request, pIndex = 1):
     recipes = Recipes.objects
     filter_list = recipes.filter(status__lt=9, user_id=request.session['user']['id'])
     mywhere = []

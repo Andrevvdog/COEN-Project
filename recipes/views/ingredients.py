@@ -8,7 +8,7 @@ from django.db.models import Q
 from datetime import datetime
 import time, os
 
-def viewingredients(request, pIndex=1):
+def viewingredients(request, pIndex = 1):
     ingredients = Ingredients.objects
     filter_list = ingredients.filter(status__lt=9)
     mywhere = []
