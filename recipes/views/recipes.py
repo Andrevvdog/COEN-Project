@@ -46,7 +46,8 @@ def viewrecipes(request, pIndex = 1):
 def add(request):
     recipebook = RecipeBook.objects.filter(status__lt=9, user_id=request.session['user']['id']).values("id","name")
     ingredients = Ingredients.objects.filter(status__lt=9).values("id","name")
-    context = {"recipebooklist":recipebook, "ingredientslist":ingredients}
+    rates = [1, 2, 3, 4, 5]
+    context = {"recipebooklist":recipebook, "ingredientslist":ingredients, "rateslist":rates}
     return render(request, "users/recipes/add.html",context)
 
 
@@ -112,8 +113,9 @@ def edit(request, recipes_id = 0):
         
         iblist = Ingredients.objects.filter(status__lt=9)
         ib = [int(vo.id) for vo in ob.ingredients.all()]
+        rates = [1, 2, 3, 4, 5]
 
-        context = {'recipes':ob,'recipebooklist':rblist,'ingredientslist':iblist,'ingerdientid':ib}
+        context = {'recipes':ob,'recipebooklist':rblist,'ingredientslist':iblist,'ingerdientid':ib,'rateslist':rates}
         return render(request, "users/recipes/edit.html",context)
     except Exception as err:
         print(err)

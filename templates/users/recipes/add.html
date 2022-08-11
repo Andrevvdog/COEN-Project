@@ -38,7 +38,12 @@
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Rate</label>
-                  <input type="text" name="rate" class="form-control" id="exampleInputEmail1" placeholder="Rate (1-5)">
+                  {% for vo in rateslist %}
+                  <div class="form-check">
+                    <input class="form-check-input" value="{{ vo }}" type="radio" name="rate">
+                    <label class="form-check-label">{{ vo }}</label>
+                  </div>
+                  {% endfor %}
                 </div>
                 <div class="form-group">
                   <label>Cooking Methods</label>
