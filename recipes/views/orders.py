@@ -13,7 +13,7 @@ def vieworders(request, pIndex = 1):
     mywhere = []
     keyword = request.GET.get("keyword",None)
     if keyword:
-        filter_list = filter_list.filter(Q(create_at__contains=keyword))
+        filter_list = filter_list.filter(Q(create_at__contains=keyword) | Q(recipename__contains=keyword))
         mywhere.append('keyword='+keyword)
     
     status = request.GET.get("status",'')
@@ -33,7 +33,6 @@ def vieworders(request, pIndex = 1):
 
     for vo in orders_list:
         ro = Recipes.objects.get(id=vo.recipes)
-        vo.recipesname = ro.name
         vo.cookingtime = ro.cooking_time * vo.num
 
         total_calories = 0
@@ -68,10 +67,10 @@ def doadd(request, recipes_id = 0):
 
         if len(ob) != 0:
             ob = ob[0]
-            ob.num = request.POST['num']
             if int(request.POST['num']) <= 0:
                 context = {'info':"Invalid Number!"}
                 return render(request, "users/info.html",context)
+            ob.num = request.POST['num']
             ob.update_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             ob.save()
 
@@ -79,6 +78,10 @@ def doadd(request, recipes_id = 0):
             ob = Orders()
             ob.user_id = request.session['user']['id']
             ob.recipes = recipes_id
+            ob.recipename = Recipes.objects.get(id=recipes_id).name
+            if int(request.POST['num']) <= 0:
+                context = {'info':"Invalid Number!"}
+                return render(request, "users/info.html",context)
             ob.num = request.POST['num']
             ob.status = 1
             ob.create_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -128,6 +131,7 @@ def doedit(request, orders_id = 0):
         if int(request.POST['num']) <= 0:
             context = {'info':"Invalid Number!"}
             return render(request, "users/info.html",context)
+        ob.recipename = Recipes.objects.get(id=ob.recipes).name
         ob.num = request.POST['num']
         ob.update_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 

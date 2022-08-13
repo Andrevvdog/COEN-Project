@@ -71,6 +71,7 @@ class Recipes(models.Model):
 class Orders(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     recipes = models.IntegerField()
+    recipename = models.CharField(max_length=255)
     num = models.IntegerField()
 
     status = models.IntegerField(default=1)   #1:Normal/9:Delete  
@@ -78,7 +79,7 @@ class Orders(models.Model):
     update_at = models.DateTimeField(default=datetime.now)
 
     def toDict(self):
-        return {'id':self.id,'user_id':self.user,'num':self.num,'recipes':self.recipes,'status':self.status,'create_at':self.create_at.strftime('%Y-%m-%d %H:%M:%S'),'update_at':self.update_at.strftime('%Y-%m-%d %H:%M:%S')}
+        return {'id':self.id,'user_id':self.user,'num':self.num,'recipes':self.recipes,'recipename':self.recipename,'status':self.status,'create_at':self.create_at.strftime('%Y-%m-%d %H:%M:%S'),'update_at':self.update_at.strftime('%Y-%m-%d %H:%M:%S')}
 
     class Meta:
         db_table = "orders"
