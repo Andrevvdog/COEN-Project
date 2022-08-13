@@ -56,7 +56,7 @@ def doadd(request):
         pic_file = request.FILES.get("cover_pic",None)
         if not pic_file:
             context = {'info':"No Cover Picture Information!"}
-            return render(request, "users/info.html",context)
+            return render(request, "users/recipes/recipesinfo.html",context)
         cover_pic = str(time.time())+"."+pic_file.name.split('.').pop()
         destination = open("./static/uploads/Recipes/"+cover_pic,"wb+")
         for chunk in pic_file.chunks():   
@@ -66,19 +66,40 @@ def doadd(request):
         ob = Recipes()
         ob.user_id = request.session['user']['id']
         ob.recipebook_id = request.POST['recipebook_id']
+
         ob.name = request.POST['name']
+        if not ob.name:
+            context = {'info':"Recipe name not found!"}
+            return render(request, "users/recipes/recipesinfo.html",context)
+
         ob.cover_pic = cover_pic
+
         ob.rate = request.POST['rate']
+
         ob.methods = request.POST['methods']
+        if not ob.methods:
+            context = {'info':"Method not found!"}
+            return render(request, "users/recipes/recipesinfo.html",context)
+
         ob.cooking_time = request.POST['cooking_time']
+        if not ob.cooking_time:
+            context = {'info':"Please input cooking time!"}
+            return render(request, "users/recipes/recipesinfo.html",context)
+
         ob.keywords = request.POST['keywords']
+        if not ob.keywords:
+            context = {'info':"Please input a keyword!"}
+            return render(request, "users/recipes/recipesinfo.html",context)
 
         ob.status = 1
         ob.create_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         ob.update_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        ob.save()
 
         ingredients = request.POST.getlist('ingredients')
+        if not ingredients:
+            context = {'info':"No ingredients added!"}
+            return render(request, "users/recipes/recipesinfo.html",context)
+        ob.save()
 
         for vo in ingredients:
             ob.ingredients.add(vo)
@@ -89,7 +110,7 @@ def doadd(request):
         print(err)
         context = {'info':"Fail to Add!"}
     
-    return render(request, "users/info.html",context)
+    return render(request, "users/recipes/recipesinfo.html",context)
 
 
 def delete(request, recipes_id = 0):
@@ -103,7 +124,7 @@ def delete(request, recipes_id = 0):
         print(err)
         context = {'info':"Fail to Delete!"}
     
-    return render(request, "users/info.html",context)
+    return render(request, "users/recipes/recipesinfo.html",context)
 
 
 def edit(request, recipes_id = 0):
@@ -120,18 +141,40 @@ def edit(request, recipes_id = 0):
     except Exception as err:
         print(err)
         context = {'info':"Information Not Found!"}
-        return render(request, "users/info.html",context)
+        return render(request, "users/recipes/recipesinfo.html",context)
 
 
 def doedit(request, recipes_id = 0):
     try:
         ob = Recipes.objects.get(id=recipes_id)
         ob.recipebook_id = request.POST['recipebook_id']
+
         ob.name = request.POST['name']
+        if not ob.name:
+            context = {'info':"Recipe name not found!"}
+            return render(request, "users/recipes/recipesinfo.html",context)
+
         ob.rate = request.POST['rate']
+
         ob.methods = request.POST['methods']
+        if not ob.methods:
+            context = {'info':"Method not found!"}
+            return render(request, "users/recipes/recipesinfo.html",context)
+
         ob.cooking_time = request.POST['cooking_time']
+        #print(int(ob.cooking_time))
+        if not ob.cooking_time:
+            context = {'info':"Please input cooking time!"}
+            return render(request, "users/recipes/recipesinfo.html", context)
+        if ob.cooking_time.isalpha() or int(float(ob.cooking_time))<0:
+            context = {'info':"Invalid type! Please input a valid cooking time!"}
+            return render(request, "users/recipes/recipesinfo.html", context)
+
         ob.keywords = request.POST['keywords']
+        if not ob.keywords:
+            context = {'info':"Please input a keyword!"}
+            return render(request, "users/recipes/recipesinfo.html",context)
+
         ob.update_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         oldpicname = request.POST['oldpicname']
@@ -146,14 +189,17 @@ def doedit(request, recipes_id = 0):
             destination.close()
             
         ob.cover_pic = cover_pic
-        ob.save()
-        
+
         ob.ingredients.clear()
         ingredients = request.POST.getlist('ingredients')
+        if not ingredients:
+            context = {'info':"No ingredients added!"}
+            return render(request, "users/recipes/recipesinfo.html",context)
+
+        ob.save()
 
         for vo in ingredients:
             ob.ingredients.add(vo)
-
 
         context = {'info':"Updated Successfully!"}
 
@@ -167,7 +213,7 @@ def doedit(request, recipes_id = 0):
         if pic_file:
             os.remove("./static/uploads/Recipes/"+cover_pic)
     
-    return render(request, "users/info.html",context)
+    return render(request, "users/recipes/recipesinfo.html",context)
 
 
 def recipesdetail(request, recipes_id = 0):
