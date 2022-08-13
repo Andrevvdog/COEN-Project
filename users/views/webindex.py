@@ -97,6 +97,7 @@ def dologin(request):
             if user.password_hash == md5.hexdigest():
                 request.session['user'] = user.toDict()
                 request.session['rbid'] = 0
+                request.session['cid'] = 0
                 return redirect(reverse("users_webindex"))
             else:
                 context = {"info":"Wrong Password！"}
@@ -111,6 +112,7 @@ def dologin(request):
 def logout(request):
     del request.session['user']
     del request.session['rbid']
+    del request.session['cid']
     return redirect(reverse("users_login"))
 
 

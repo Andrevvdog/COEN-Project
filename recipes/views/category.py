@@ -77,8 +77,6 @@ def delete(request, category_id = 0):
 def edit(request, category_id = 0):
     try:
         ob = Category.objects.get(id=category_id)
-        # slist = Recipe.objects.values("id","name")
-        # context = {'category':ob,"Recipelist":slist}
         context = {'category':ob}
         return render(request, "users/category/edit.html",context)
     except Exception as err:
@@ -100,4 +98,54 @@ def doedit(request, category_id = 0):
         context = {'info':"Fail to Edit!"}
     
     return render(request, "users/info.html",context)
+
+def showingredients(request, pIndex = 1):
+    cid = request.GET.get("cid",0)
+
+    print(request.session['cid']) 
+
+    if cid != 0 and request.session['cid'] == '0':
+        request.session['cid'] = str(cid)
+
+    elif request.session['cid'] != '0' and cid != 0:
+        request.session['cid'] = str(cid)
+    
+    elif request.session['cid'] != '0' and cid == 0:
+        cid = int(request.session['cid'])
+
+    else:
+        context = {'info':"Unknown Error!"}
+        return render(request, "attendees/info.html",context)
+
+    ingredients = Ingredients.objects
+    filter_list = ingredients.filter(status__lt=9, category_id=cid)
+
+    mywhere = []
+    keyword = request.GET.get("keyword",None)
+    if keyword:
+        filter_list = filter_list.filter(Q(name__contains=keyword)).distinct()
+        mywhere.append('keyword='+keyword)
+    
+    status = request.GET.get("status",'')
+    if status != '':
+        filter_list = filter_list.filter(status=status)
+        mywhere.append('status='+status)
+
+    pIndex = int(pIndex)
+    page = Paginator(filter_list, 6)
+    maxpages = page.num_pages
+    if pIndex > maxpages:
+        pIndex = maxpages
+    if pIndex < 1:
+        pIndex = 1
+    ingredients_list = page.page(pIndex)
+    plist = page.page_range
+
+    for vo in ingredients_list:
+        cob = Category.objects.get(id=vo.category_id)
+        vo.categoryname = cob.name
+
+    context = {"ingredientslist":ingredients_list, 'plist':plist,'pIndex':pIndex,'maxpages':maxpages,'mywhere':mywhere}
+    
+    return render(request, "users/category/showingredients.html",context)
 

@@ -125,7 +125,7 @@ def doedit(request, recipebook_id = 0):
     
     return render(request, "users/info.html",context)
 
-def showrecipes(request, pIndex=1):
+def showrecipes(request, pIndex = 1):
     rbid = request.GET.get("rbid",0)
 
     print(request.session['rbid']) 
