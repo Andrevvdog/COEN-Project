@@ -41,7 +41,12 @@ def add(request):
 def doadd(request):
     try:
         ob = Category()
+
         ob.name = request.POST['name']
+        if not ob.name:
+            context = {'info':"Category name not found!"}
+            return render(request, "users/category/categoryinfo.html",context)
+
         ob.status = 1
         ob.create_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         ob.update_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -51,7 +56,7 @@ def doadd(request):
         print(err)
         context = {'info':"Fail to Add!"}
     
-    return render(request, "users/info.html",context)
+    return render(request, "users/category/categoryinfo.html",context)
 
 def delete(request, category_id = 0):
     try:
@@ -72,7 +77,7 @@ def delete(request, category_id = 0):
         print(err)
         context = {'info':"Fail to Delete!"}
     
-    return render(request, "users/info.html",context)
+    return render(request, "users/category/categoryinfo.html",context)
 
 def edit(request, category_id = 0):
     try:
@@ -82,7 +87,7 @@ def edit(request, category_id = 0):
     except Exception as err:
         print(err)
         context = {'info':"Information Not Found!"}
-        return render(request, "users/info.html",context)
+        return render(request, "users/category/categoryinfo.html",context)
 
 def doedit(request, category_id = 0):
     try:
@@ -97,7 +102,7 @@ def doedit(request, category_id = 0):
         print(err)
         context = {'info':"Fail to Edit!"}
     
-    return render(request, "users/info.html",context)
+    return render(request, "users/category/categoryinfo.html",context)
 
 def showingredients(request, pIndex = 1):
     cid = request.GET.get("cid",0)

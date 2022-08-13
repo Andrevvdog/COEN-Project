@@ -45,7 +45,7 @@ def doadd(request):
         pic_file = request.FILES.get("cover_pic",None)
         if not pic_file:
             context = {'info':"No Cover Picture Information!"}
-            return render(request, "users/info.html",context)
+            return render(request, "users/recipebook/recipebookinfo.html",context)
         cover_pic = str(time.time())+"."+pic_file.name.split('.').pop()
         destination = open("./static/uploads/Recipebook/"+cover_pic,"wb+")
         for chunk in pic_file.chunks():   
@@ -55,6 +55,10 @@ def doadd(request):
         ob = RecipeBook()
         ob.user_id = request.session['user']['id']
         ob.name = request.POST['name']
+        if not ob.name:
+            context = {'info':"List name not found!"}
+            return render(request, "users/recipebook/recipebookinfo.html",context)
+
         ob.cover_pic = cover_pic
         ob.status = 1
         ob.create_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -65,7 +69,7 @@ def doadd(request):
         print(err)
         context = {'info':"Fail to Add!"}
     
-    return render(request, "users/info.html",context)
+    return render(request, "users/recipebook/recipebookinfo.html",context)
 
 def delete(request, recipebook_id = 0):
     try:
@@ -78,7 +82,7 @@ def delete(request, recipebook_id = 0):
         print(err)
         context = {'info':"Fail to Delete!"}
     
-    return render(request, "users/info.html",context)
+    return render(request, "users/recipebook/recipebookinfo.html",context)
 
 
 def edit(request, recipebook_id = 0):
@@ -89,7 +93,7 @@ def edit(request, recipebook_id = 0):
     except Exception as err:
         print(err)
         context = {'info':"Information Not Found!"}
-        return render(request, "users/info.html",context)
+        return render(request, "users/recipebook/recipebookinfo.html",context)
 
 def doedit(request, recipebook_id = 0):
     try:
@@ -123,7 +127,7 @@ def doedit(request, recipebook_id = 0):
         if pic_file:
             os.remove("./static/uploads/Recipebook/"+cover_pic)
     
-    return render(request, "users/info.html",context)
+    return render(request, "users/recipebook/recipebookinfo.html",context)
 
 def showrecipes(request, pIndex = 1):
     rbid = request.GET.get("rbid",0)
@@ -141,7 +145,7 @@ def showrecipes(request, pIndex = 1):
 
     else:
         context = {'info':"Unknown Error!"}
-        return render(request, "attendees/info.html",context)
+        return render(request, "users/recipebook/recipebookinfo.html",context)
 
     recipes = Recipes.objects
     filter_list = recipes.filter(status__lt=9, user_id=request.session['user']['id'], recipebook_id=rbid)

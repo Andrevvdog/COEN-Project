@@ -55,7 +55,7 @@ def doadd(request):
         pic_file = request.FILES.get("cover_pic",None)
         if not pic_file:
             context = {'info':"No Cover Picture Information!"}
-            return render(request, "users/info.html",context)
+            return render(request, "users/Ingredients/ingredientsinfo.html",context)
         cover_pic = str(time.time())+"."+pic_file.name.split('.').pop()
         destination = open("./static/uploads/Ingredients/"+cover_pic,"wb+")
         for chunk in pic_file.chunks():   
@@ -64,8 +64,20 @@ def doadd(request):
 
         ob = Ingredients()
         ob.category_id = request.POST['category_id']
+
         ob.name = request.POST['name']
+        if not ob.name:
+            context = {'info':"Ingredient name not found!"}
+            return render(request, "users/Ingredients/ingredientsinfo.html",context)
+
         ob.calories = request.POST['calories']
+        if not ob.calories:
+            context = {'info':"Ingredient's calories not found!"}
+            return render(request, "users/Ingredients/ingredientsinfo.html",context)
+        if ob.calories.isalpha() or int(float(ob.calories))<0:
+            context = {'info':"Invalid calories!"}
+            return render(request, "users/recipes/recipesinfo.html", context)
+
         ob.cover_pic = cover_pic
         ob.status = 1
         ob.create_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -76,7 +88,7 @@ def doadd(request):
         print(err)
         context = {'info':"Fail to Add!"}
     
-    return render(request, "users/info.html",context)
+    return render(request, "users/Ingredients/ingredientsinfo.html",context)
 
 def delete(request, ingredients_id = 0):
     try:
@@ -89,7 +101,7 @@ def delete(request, ingredients_id = 0):
         print(err)
         context = {'info':"Fail to Delete!"}
     
-    return render(request, "users/info.html",context)
+    return render(request, "users/Ingredients/ingredientsinfo.html",context)
 
 def edit(request, ingredients_id = 0):
     try:
@@ -100,7 +112,7 @@ def edit(request, ingredients_id = 0):
     except Exception as err:
         print(err)
         context = {'info':"Information Not Found!"}
-        return render(request, "users/info.html",context)
+        return render(request, "users/Ingredients/ingredientsinfo.html",context)
 
 def doedit(request, ingredients_id = 0):
     try:
@@ -108,7 +120,15 @@ def doedit(request, ingredients_id = 0):
         # ob.Recipe_id_id = request.POST['Recipe_id']
         ob.category_id = request.POST['category_id']
         ob.name = request.POST['name']
+
         ob.calories = request.POST['calories']
+        if not ob.calories:
+            context = {'info':"Please input calories!"}
+            return render(request, "users/Ingredients/ingredientsinfo.html", context)
+        if ob.calories.isalpha() or int(float(ob.calories))<0:
+            context = {'info':"Invalid calories!"}
+            return render(request, "users/Ingredients/ingredientsinfo.html", context)
+
         ob.update_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         oldpicname = request.POST['oldpicname']
@@ -136,4 +156,4 @@ def doedit(request, ingredients_id = 0):
         if pic_file:
             os.remove("./static/uploads/Ingredients/"+cover_pic)
     
-    return render(request, "users/info.html",context)
+    return render(request, "users/Ingredients/ingredientsinfo.html",context)

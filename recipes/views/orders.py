@@ -58,7 +58,7 @@ def add(request, recipes_id = 0):
     except Exception as err:
         print(err)
         context = {'info':"Information Not Found!"}
-        return render(request, "users/info.html",context)
+        return render(request, "users/recipes/recipesinfo.html",context)
 
 
 def doadd(request, recipes_id = 0):
@@ -67,10 +67,10 @@ def doadd(request, recipes_id = 0):
 
         if len(ob) != 0:
             ob = ob[0]
+            ob.num = request.POST['num']
             if int(request.POST['num']) <= 0:
                 context = {'info':"Invalid Number!"}
-                return render(request, "users/info.html",context)
-            ob.num = request.POST['num']
+                return render(request, "users/recipes/recipesinfo.html",context)
             ob.update_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             ob.save()
 
@@ -81,7 +81,7 @@ def doadd(request, recipes_id = 0):
             ob.recipename = Recipes.objects.get(id=recipes_id).name
             if int(request.POST['num']) <= 0:
                 context = {'info':"Invalid Number!"}
-                return render(request, "users/info.html",context)
+                return render(request, "users/recipes/recipesinfo.html",context)
             ob.num = request.POST['num']
             ob.status = 1
             ob.create_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -93,7 +93,7 @@ def doadd(request, recipes_id = 0):
         print(err)
         context = {'info':"Fail to Add!"}
     
-    return render(request, "users/info.html",context)
+    return render(request, "users/recipes/recipesinfo.html",context)
 
 def delete(request, orders_id = 0):
     try:
@@ -106,7 +106,7 @@ def delete(request, orders_id = 0):
         print(err)
         context = {'info':"Fail to Delete!"}
     
-    return render(request, "users/info.html",context)
+    return render(request, "users/orders/orderinfo.html",context)
 
 
 def edit(request, orders_id = 0):
@@ -118,19 +118,19 @@ def edit(request, orders_id = 0):
     except Exception as err:
         print(err)
         context = {'info':"Information Not Found!"}
-        return render(request, "users/info.html",context)
+        return render(request, "users/orders/orderinfo.html",context)
 
 def doedit(request, orders_id = 0):
     try:
         ob = Orders.objects.get(id=orders_id)
         if len(Orders.objects.filter(user_id=request.session['user']['id'],recipes__lt=ob.recipes,status__lt=9, recipes=request.POST['recipes_id'])) != 0:
             context = {'info':"Order Already Exists!"}
-            return render(request, "users/info.html",context)
+            return render(request, "users/orders/orderinfo.html",context)
 
         ob.recipes = request.POST['recipes_id']
         if int(request.POST['num']) <= 0:
             context = {'info':"Invalid Number!"}
-            return render(request, "users/info.html",context)
+            return render(request, "users/orders/orderinfo.html",context)
         ob.recipename = Recipes.objects.get(id=ob.recipes).name
         ob.num = request.POST['num']
         ob.update_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -142,6 +142,6 @@ def doedit(request, orders_id = 0):
         print(err)
         context = {'info':"Fail to Update!"}
     
-    return render(request, "users/info.html",context)
+    return render(request, "users/orders/orderinfo.html",context)
 
 
