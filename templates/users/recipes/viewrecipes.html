@@ -38,7 +38,7 @@
               <div class="widget-user-header text-white"
                    style="background: url('/static/uploads/Recipes/{{ vo.cover_pic }}') center center;">
                 <h3 class="widget-user-username text-right">{{vo.name}}</h3>
-                <h5 class="widget-user-desc text-right">Total Calories: {{ vo.calories }}</h5>
+                <h5 class="widget-user-desc text-right">Calories: {{ vo.calories }} kcal/100g</h5>
                 <h5 class="widget-user-desc text-right">Created on: {{ vo.create_at|date:'Y-m-d' }}</h5>
                 <a onclick="doDel('{% url 'users_recipes_delete' vo.id %}')" href="#"><h5 class="widget-user-desc text-right" style="color:red">Delete</h5></a>
               </div>

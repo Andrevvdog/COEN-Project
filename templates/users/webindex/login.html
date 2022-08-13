@@ -54,7 +54,8 @@
                 
               </div>
               <span class="form-control-feedback" style="width:150px">
-                <img src="{% url 'users_verify' %}"/>
+                <img id="verify_img" src="{% url 'users_verify' %}" onclick="javascript:reloadImg();" alt="verification code" title="Click to reload"/>
+                <a rel="external nofollow">Click image to reload</a>
               </span>
             </div>
             <div class="row">
@@ -99,7 +100,13 @@
   $(function () {
     bsCustomFileInput.init();
   });
-  </script>
+</script>
+
+<script>
+  	function reloadImg(){
+   		document.getElementById("verify_img").src="{% url 'users_verify' %}?rnd=" + Math.random();
+  	}
+</script>
 
 </body>
 </html>
