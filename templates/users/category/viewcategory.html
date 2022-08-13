@@ -52,8 +52,6 @@
                     <td>
                       {% if vo.status == 1 %}
                         <span style="color:green">Enabled</span>
-                      {% elif vo.status == 9 %}
-                        <span style="color:red">Deleted</span>
                       {% else %}
                         <span style="color:red">Unknown</span>
                       {% endif %}
@@ -63,6 +61,8 @@
                     <td width="25%">
                       <a href="{% url 'users_category_edit' vo.id %}" class="btn btn-success btn-xs">
                         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
+                        <a href="{% url 'users_category_showingredients' 1 %}?cid={{vo.id}}" class="btn btn-primary btn-xs">
+                          <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Details</a>
                       <button type="button" onclick="doDel('{% url 'users_category_delete' vo.id %}')" class="btn btn-danger btn-xs">
                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</button>
                     </td>
