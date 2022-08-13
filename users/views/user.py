@@ -15,7 +15,7 @@ def edit(request, user_id = 0):
     except Exception as err:
         print(err)
         context = {'info':"Information Not Found!"}
-        return render(request, "users/info.html",context)
+        return render(request, "users//user/userinfo.html",context)
 
 def doedit(request, user_id = 0):
     try:
@@ -58,4 +58,4 @@ def doedit(request, user_id = 0):
         if pic_file and oldpicname != 'avatar5.png':
             os.remove("./static/uploads/Users/"+oldpicname)
     
-    return render(request, "users/info.html",context)
+    return render(request, "users//user/userinfo.html",context)

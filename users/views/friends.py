@@ -49,25 +49,39 @@ def doadd(request):
         avatar_pic = str(time.time())+"."+pic_file.name.split('.').pop()
         destination = open("./static/uploads/Friends/"+avatar_pic,"wb+")
         for chunk in pic_file.chunks():   
-            destination.write(chunk)  
+            destination.write(chunk)
         destination.close()
 
         ob = Friends()
         ob.user_id = request.session['user']['id']
+
         ob.username = request.POST['username']
+        if not ob.username:
+            context = {'info': "Information not completed!"}
+            return render(request, "users/friends/friendsinfo.html", context)
+
         ob.nickname = request.POST['nickname']
+        if not ob.nickname:
+            context = {'info': "Information not completed!"}
+            return render(request, "users/friends/friendsinfo.html", context)
+
         ob.email = request.POST['email']
+        if not ob.email:
+            context = {'info': "Information not completed!"}
+            return render(request, "users/friends/friendsinfo.html", context)
+
         ob.avatar_pic = avatar_pic
         ob.status = 1
         ob.create_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         ob.update_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         ob.save()
-        context = {'info':"Successfully Added!"}
+        context = {'info': "Successfully Added!"}
+
     except Exception as err:
         print(err)
         context = {'info':"Fail to Add!"}
     
-    return render(request, "users/info.html",context)
+    return render(request, "users/friends/friendsinfo.html",context)
 
 
 def delete(request, friends_id = 0):
@@ -81,7 +95,7 @@ def delete(request, friends_id = 0):
         print(err)
         context = {'info':"Fail to Delete!"}
     
-    return render(request, "users/info.html",context)
+    return render(request, "users/friends/friendsinfo.html",context)
 
 def edit(request, friends_id = 0):
     try:
@@ -91,7 +105,7 @@ def edit(request, friends_id = 0):
     except Exception as err:
         print(err)
         context = {'info':"Information Not Found!"}
-        return render(request, "users/info.html",context)
+        return render(request, "users/friends/friendsinfo.html",context)
 
 def doedit(request, friends_id = 0):
     try:
@@ -127,4 +141,4 @@ def doedit(request, friends_id = 0):
         if pic_file:
             os.remove("./static/uploads/Friends/"+avatar_pic)
     
-    return render(request, "users/info.html",context)
+    return render(request, "users/friends/friendsinfo.html",context)
