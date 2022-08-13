@@ -27,7 +27,7 @@
               <div class="card-body">
                 <div class="form-group">
                   <label for="exampleSelectBorder">List Name</label>
-                  <select class="custom-select" name="recipebook_id" id="recipebook_id" onchange="doLoadCategory(0)">
+                  <select class="custom-select" name="recipebook_id" id="recipebook_id">
                     {% for cvo in recipebooklist %}
                       <option value="{{cvo.id }}"{% if cvo.id == recipes.recipebook_id %} selected {% endif %}>{{cvo.name}}</option>
                     {% endfor %}
@@ -67,18 +67,16 @@
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Ingredients</label>
-                  <div class="col-sm-9">
-                      {% for io in ingredientslist %}
-                          {% if io.id in ingerdientid %}
-                              <label class="checkbox-inline">
-                                  <input value="{{ io.id }}" type="checkbox" name="ingredients" checked="checked"/>&nbsp;{{ io.name }}&nbsp;&nbsp;&nbsp;&nbsp;
-                              </label>
-                          {% else %}
-                              <label class="checkbox-inline">
-                                  <input value="{{ io.id }}" type="checkbox" name="ingredients"/>&nbsp;{{ io.name }}&nbsp;&nbsp;&nbsp;&nbsp;
-                              </label>
-                          {% endif %}
+                  <div class="select2-blue">
+                    <select class="select2" multiple="multiple" name="ingredients" data-placeholder="Select Ingredients" data-dropdown-css-class="select2-blue" style="width: 100%;">
+                      {% for vo in ingredientslist %}
+                      {% if vo.id in ingerdientid %}
+                      <option value="{{vo.id }}" selected>{{ vo.name }}</option>
+                      {% else %}
+                      <option value="{{vo.id }}">{{ vo.name }}</option>
+                      {% endif %}
                       {% endfor %}
+                    </select>
                   </div>
                 </div>
                 <div class="form-group">

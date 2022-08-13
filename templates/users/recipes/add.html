@@ -59,12 +59,13 @@
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Ingredients</label>
-                  <br>
-                    {% for vo in ingredientslist %}
-                    <label class="checkbox-inline">
-                      <input value="{{ vo.id }}" type="checkbox" name="ingredients"/>&nbsp;{{ vo.name }}&nbsp;&nbsp;&nbsp;&nbsp;
-                    </label>
-                    {% endfor %}
+                  <div class="select2-blue">
+                    <select class="select2" multiple="multiple" name="ingredients" data-placeholder="Select Ingredients" data-dropdown-css-class="select2-blue" style="width: 100%;">
+                      {% for vo in ingredientslist %}
+                      <option value="{{ vo.id }}">{{ vo.name }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
                 </div>
                 <div class="form-group">
                   <label for="exampleInputFile">Cover Image</label>
