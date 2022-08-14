@@ -1,6 +1,6 @@
 # COEN-Project
 
-This recipe cooking robot is a web application based on Django Framework and using MySQL as backend database.
+This cooking robot recipe manager is a web application based on Django Framework and using MySQL as backend database.
 
 
 # Software Requirements:
@@ -34,7 +34,7 @@ create database rkdb4;
 
 exit
 
-# run Django application
+## run Django application
 
 cd COEN-Project
 
@@ -44,6 +44,6 @@ python3 manage.py migrate
 
 python3 manage.py runserver
 
-# open a web broswer to check
+## open a web broswer to check
 
 http://localhost:8000/users
